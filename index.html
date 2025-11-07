@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Paleti Preesha — AI Engineer</title>
+
+  <!-- icons + font -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-0:#071225;
+      --bg-1:#0c1b2b;
+      --card:#0f1720;
+      --accent:#1e90ff;        /* primary blue */
+      --accent-2:#63b3ff;      /* lighter blue */
+      --muted:#9fb0c8;
+      --text:#e6f0fb;
+      --glass: rgba(255,255,255,0.02);
+      --border: rgba(255,255,255,0.04);
+      --radius:14px;
+      --maxw:1200px;
+      --ease: cubic-bezier(.2,.9,.2,1);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background: linear-gradient(180deg,var(--bg-0) 0%, var(--bg-1) 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      scroll-behavior:smooth;
+    }
+
+    /* layout container */
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:20px;}
+
+    /* header */
+    header{
+      position:fixed;left:0;right:0;top:0;z-index:999;
+      background:linear-gradient(180deg, rgba(6,12,20,0.85), rgba(6,12,20,0.75));
+      border-bottom:1px solid var(--border);
+      backdrop-filter: blur(6px);
+    }
+    .nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;}
+    .brand{color:var(--accent);font-weight:700;font-size:1.05rem;letter-spacing:0.2px}
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .nav-links a{color:var(--muted);text-decoration:none;font-weight:500;font-size:0.95rem;transition:color .18s}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent-2)}
+
+    /* sections general */
+    main{padding-top:82px;max-width:var(--maxw);margin:0 auto}
+    section{padding:36px 18px}
+    .section-inner{max-width:var(--maxw);margin:0 auto;padding:0 14px}
+    h2.section-title{color:var(--accent);text-align:center;margin:0;font-size:1.5rem}
+    p.section-caption{color:var(--muted);text-align:center;font-style:italic;margin:8px 0 20px}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center;min-height:66vh}
+    .hero-left h1{font-size:2.2rem;margin:0}
+    .hero-left h1 .accent{color:var(--accent)}
+    .hero-left p{color:var(--muted);margin:14px 0 18px;max-width:680px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .btn {
+      display:inline-block;padding:10px 16px;border-radius:10px;border:none;font-weight:700;cursor:pointer;
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#031226; transition: box-shadow .18s,var(--ease), transform .12s;
+      box-shadow:0 10px 30px rgba(30,144,255,0.08);
+    }
+    .btn.secondary{background:transparent;color:var(--muted);border:1px solid var(--border)}
+    .btn:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(30,144,255,0.14)}
+    .btn:active{transform:translateY(-1px)}
+
+    .hero-right{background:var(--card);padding:22px;border-radius:16px;border:1px solid var(--border);text-align:center}
+    .profile-pic{width:260px;height:260px;border-radius:50%;object-fit:cover;border:4px solid rgba(30,144,255,0.08);display:block;margin:0 auto}
+    .hero-contacts{display:flex;gap:16px;justify-content:center;margin-top:14px}
+    .icon-btn{width:44px;height:44px;border-radius:10px;background:var(--glass);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:20px;border:1px solid var(--border);transition:transform .15s,box-shadow .15s}
+    .icon-btn:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(30,144,255,0.08);color:var(--accent-2)}
+
+    /* ABOUT: left summary, right stacked horizontal cards */
+    .about-grid{display:grid;grid-template-columns:1fr 460px;gap:22px;align-items:start}
+    .about-card-left{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:12px;padding:20px;border:1px solid var(--border)
+    }
+    .about-summary h3{color:var(--accent);margin-bottom:8px}
+    .about-summary p{color:var(--muted);font-size:1rem}
+    .about-right{display:flex;flex-direction:column;gap:12px}
+    .hcard{
+      background:var(--card);padding:14px;border-radius:12px;border:1px solid var(--border);
+      transition:transform .18s,box-shadow .18s;
+    }
+    .hcard:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(30,144,255,0.06)}
+    .hcard h4{color:var(--accent);margin:0 0 6px}
+    .hcard p{color:var(--muted);margin:0;font-size:0.95rem}
+
+    /* SKILLS: rows with 3 cards per row */
+    .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .skill-card{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--border);transition:transform .18s,box-shadow .18s}
+    .skill-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(30,144,255,0.06)}
+    .skill-card h4{color:var(--accent);margin:0 0 10px}
+    .skill-tags{display:flex;flex-wrap:wrap;gap:10px}
+    .skill-chip{
+      background:var(--glass);padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.02);color:var(--text);
+      cursor:pointer;transition:transform .12s,box-shadow .12s,background .12s;
+    }
+    .skill-chip:hover{transform:scale(1.06);box-shadow:0 10px 26px rgba(30,144,255,0.06);background:linear-gradient(90deg, rgba(30,144,255,0.05), rgba(99,179,255,0.02));color:var(--accent-2)}
+
+    /* PROJECTS: larger cards; tech chips + view source */
+    .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .project-card{background:var(--card);padding:20px;border-radius:14px;border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .18s,box-shadow .18s}
+    .project-card:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(30,144,255,0.08)}
+    .project-card h4{color:var(--accent);margin:0 0 8px}
+    .project-card p{color:var(--muted);margin:0 0 12px}
+    .tech-list{display:flex;flex-wrap:wrap;gap:8px}
+    .tech-btn{
+      border-radius:8px;padding:6px 10px;background:linear-gradient(90deg, rgba(30,144,255,0.04), rgba(99,179,255,0.02));
+      color:var(--accent-2);border:1px solid rgba(30,144,255,0.05);font-weight:600;font-size:0.9rem;
+      cursor:pointer;transition:transform .12s;
+    }
+    .tech-btn:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(30,144,255,0.06)}
+    .view-source{display:inline-block;margin-top:12px;padding:9px 14px;border-radius:10px;background:var(--accent);color:#021029;font-weight:700;text-decoration:none;transition:box-shadow .18s}
+    .view-source:hover{box-shadow:0 16px 40px rgba(30,144,255,0.12)}
+
+    /* EXPERIENCE: each experience split into left and right cards (bigger) */
+    .experience-list{display:flex;flex-direction:column;gap:18px}
+    .experience-row{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:stretch}
+    .exp-left-card,.exp-right-card{
+      background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--border);transition:transform .18s;
+    }
+    .exp-left-card h4{color:var(--accent);margin:0 0 6px}
+    .exp-left-card .meta{color:var(--muted);font-size:0.95rem}
+    .exp-right-card p, .exp-right-card ul{color:var(--muted);margin:0;font-size:0.96rem}
+    .exp-left-card:hover,.exp-right-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(30,144,255,0.06)}
+
+    /* ACHIEVEMENTS & CERTIFICATIONS: 3 per row for certs; activities after */
+    .ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:18px}
+    .ach-card{background:var(--card);padding:16px;border-radius:12px;border:1px solid var(--border);transition:transform .18s}
+    .ach-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(30,144,255,0.06)}
+    .ach-card h4{color:var(--accent);margin:0 0 6px}
+    .co-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .co-card{background:var(--card);padding:16px;border-radius:12px;border:1px solid var(--border);transition:transform .18s}
+    .co-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(30,144,255,0.06)}
+
+    /* CONTACT: left info, right form (equal halves) */
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .contact-card{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--border)}
+    .contact-card h3{color:var(--accent);margin:0 0 10px}
+    .contact-info p{color:var(--muted);margin:8px 0}
+    .social-row{display:flex;gap:12px;margin-top:12px}
+    .social-link{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;background:var(--glass);color:var(--accent);font-size:20px;border:1px solid var(--border);transition:transform .12s}
+    .social-link:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(30,144,255,0.06);color:var(--accent-2)}
+
+    /* form */
+    .contact-form form{display:flex;flex-direction:column;gap:10px}
+    input,textarea{background:rgba(255,255,255,0.02);border:1px solid var(--border);padding:10px;border-radius:8px;color:var(--text);outline:none}
+    .submit-btn{background:var(--accent);color:#021029;padding:10px 14px;border-radius:10px;border:none;font-weight:700;cursor:pointer;transition:box-shadow .18s}
+    .submit-btn:hover{box-shadow:0 18px 40px rgba(30,144,255,0.12)}
+
+    /* fade-in animation helpers */
+    .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    /* responsiveness */
+    @media (max-width:1100px){
+      .hero{grid-template-columns:1fr;}
+      .about-grid{grid-template-columns:1fr;}
+      .skills-grid{grid-template-columns:repeat(2,1fr)}
+      .projects-grid{grid-template-columns:1fr}
+      .experience-row{grid-template-columns:1fr}
+      .ach-grid{grid-template-columns:repeat(2,1fr)}
+      .contact-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:680px){
+      .skills-grid{grid-template-columns:1fr}
+      .ach-grid{grid-template-columns:1fr}
+      .co-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">Paleti Preesha</div>
+    <nav class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+<a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section id="home" class="reveal">
+    <div class="section-inner hero">
+      <div class="hero-left">
+        <h1>Hello — I’m <span class="accent">Paleti Preesha</span></h1>
+        <p>Aspiring AI Engineer with hands-on experience in Python, Generative AI, LLMs and Machine Learning. I build data-driven solutions, fine-tune models, create production-ready datasets and integrate AI into practical systems.</p>
+
+        <div class="hero-actions">
+          <a class="btn" href="PaletiPreesha Resume.pdf" download>Download Resume</a>
+          <a class="btn secondary" href="#contact">Contact</a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <!-- profile.jpg should be in same folder (user indicated portfolio folder) -->
+        <img src="profile.jpeg" alt="Paleti Preesha" class="profile-pic" />
+        <div class="hero-contacts">
+          <a class="icon-btn" href="mailto:preeshapaleti@gmail.com" title="Email"><i class='bx bx-envelope'></i></a>
+          <a class="icon-btn" href="tel:+919515314559" title="Phone"><i class='bx bx-phone'></i></a>
+          <a class="icon-btn" href="https://www.linkedin.com/in/preesha-paleti-613717254/" target="_blank" title="LinkedIn"><i class='bx bxl-linkedin'></i></a>
+          <a class="icon-btn" href="https://github.com/Preesha-54" target="_blank" title="GitHub"><i class='bx bxl-github'></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="reveal">
+    <div class="section-inner">
+      <h2 class="section-title">About Me</h2>
+      <p class="section-caption">A brief overview of my academic background and journey in AI</p>
+
+      <div class="about-grid">
+        <!-- left: summary -->
+        <div class="about-card-left about-summary">
+          <h3>Career Objective & Summary</h3>
+          <p>
+I’m <strong>Paleti Preesha</strong>, an aspiring <strong>AI Engineer</strong> currently pursuing my <strong>Master of Computer Applications in Generative AI</strong> at <strong>SRM University, Chennai (2025–2027)</strong>, following a <strong>Bachelor of Computer Applications</strong> from <strong>Vignan University, Guntur</strong>, where I graduated with a <strong>CGPA of 8.4</strong>.
+</p>
+<p>Currently, I work as an <strong>LLM Python Engineer at Turing Enterprises Inc., California</strong>, where I focus on fine-tuning language models, implementing RLHF/RLEF pipelines, and ensuring dataset quality for advanced NLP tasks. I’m passionate about building intelligent, reliable AI systems and continuously learning to push the boundaries of modern AI.
+          </p>
+        </div>
+
+        <!-- right: stacked horizontal cards (education + work) -->
+        <div class="about-right">
+          <div class="hcard">
+            <h4>SRM University — MCA (Generative AI)</h4>
+            <p>SRM University, Chennai (2025–2027) — Master of Computer Application (Generative AI)</p>
+          </div>
+
+          <div class="hcard">
+            <h4>Vignan University — BCA</h4>
+            <p>Vignan University, Guntur (2022–2025) — Bachelor of Computer Application | CGPA: 8.4</p>
+          </div>
+
+          <div class="hcard">
+            <h4>Turing Enterprises Inc. — LLM Python Engineer</h4>
+            <p>Remote — Sep 2024 – Present. Led fine-tuning initiatives, RLHF/RLEF pipelines, and dataset creation for vulnerability detection and assistant training.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- EXPERIENCE -->
+  <section id="experience" class="reveal">
+    <div class="section-inner">
+      <h2 class="section-title">Work Experience</h2>
+      <p class="section-caption">Roles, responsibilities and measurable contributions across industry engagements</p>
+
+      <div class="experience-list">
+        <!-- Turing -->
+        <div class="experience-row">
+          <div class="exp-left-card">
+            <h4>Turing Enterprises Inc.</h4>
+            <div class="meta">LLM Python Engineer</div>
+            <div class="meta">Sep 2024 — Present</div>
+          </div>
+          <div class="exp-right-card">
+            <p>Leading a 10 team of engineers to design and fine-tune Large Language Models for advanced NLP applications.
+Implemented RLHF/RLEF pipelines to enhance model accuracy, alignment, and contextual performance.
+Developed high-quality Agent Completion and vulnerability detection datasets, improving AI reliability and efficiency.</p>
+          </div>
+        </div>
+
+        <!-- Launched Global -->
+        <div class="experience-row">
+          <div class="exp-left-card">
+            <h4>Launched Global</h4>
+            <div class="meta">AI Intern</div>
+            <div class="meta">July 2025 — Aug 2025</div>
+          </div>
+          <div class="exp-right-card">
+            <p>Worked on generative AI integrations and data automation for enterprise clients. Contributed to data classification, summarization, and fine-tuning experiments. Developed an AI-powered excuse generator using Hugging Face, gTTS, Gradio, and Python PIL, integrating NLP, TTS, and image generation.</p>
+          </div>
+        </div>
+
+        <!-- Salesforce -->
+        <div class="experience-row">
+          <div class="exp-left-card">
+            <h4>Salesforce</h4>
+            <div class="meta">Developer Intern</div>
+            <div class="meta">Nov 2023 — Jan 2024</div>
+          </div>
+          <div class="exp-right-card">
+            <p>Completed a 8-week virtual internship focused on Salesforce CRM, cloud automation, and data management. Gained hands-on experience through guided projects, Trailhead learning (42+ hrs), and mentor-led sessions. Developed a strong foundation in Salesforce workflows, dashboards, and CRM customization.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- SKILLS -->
+  <section id="skills" class="reveal">
+    <div class="section-inner">
+      <h2 class="section-title">Skills & Expertise</h2>
+      <p class="section-caption">A comprehensive set of technical and soft skills that enable me to tackle diverse challenges</p>
+
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h4>Programming</h4>
+          <div class="skill-tags">
+            <div class="skill-chip">Python</div>
+            <div class="skill-chip">Java</div>
+            <div class="skill-chip">C#</div>
+            <div class="skill-chip">SQL</div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h4>Database</h4>
+          <div class="skill-tags">
+            <div class="skill-chip">MySQL</div>
+            <div class="skill-chip">MongoDB</div>
+            <div class="skill-chip">Redis</div>
+            <div class="skill-chip">Data Modeling</div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h4>Web Technologies</h4>
+          <div class="skill-tags">
+            <div class="skill-chip">HTML</div>
+            <div class="skill-chip">CSS</div>
+            <div class="skill-chip">JavaScript</div>
+            <div class="skill-chip">Flask</div>
+            <div class="skill-chip">FastAPI</div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h4>AI & ML</h4>
+          <div class="skill-tags">
+            <div class="skill-chip">LLMs</div>
+            <div class="skill-chip">Generative AI</div>
+            <div class="skill-chip">Model Fine-Tuning</div>
+            <div class="skill-chip">RLHF</div>
+            <div class="skill-chip">Prompt Engineering</div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h4>Soft Skills</h4>
+          <div class="skill-tags">
+            <div class="skill-chip">Team Leadership</div>
+            <div class="skill-chip">Communication</div>
+            <div class="skill-chip">Problem Solving</div>
+            <div class="skill-chip">Time Management</div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h4>Languages</h4>
+          <div class="skill-tags">
+            <div class="skill-chip">English</div>
+            <div class="skill-chip">Telugu</div>
+            <div class="skill-chip">Hindi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="reveal">
+    <div class="section-inner">
+      <h2 class="section-title">Projects</h2>
+      <p class="section-caption">Highlighted projects demonstrating applied skills, full-stack implementation and ML engineering</p>
+
+      <div class="projects-grid">
+        <div class="project-card">
+          <h4>Intelligent Excuse Generator — Aug 2025</h4>
+          <p>Multimodal AI system generating context-aware excuses (text, TTS, visuals). Built an interactive Gradio UI, used Hugging Face Transformers and gTTS, plus image generation for demo outputs.</p>
+          <div class="tech-list">
+            <button class="tech-btn">Python</button>
+            <button class="tech-btn">Hugging Face</button>
+            <button class="tech-btn">gTTS</button>
+            <button class="tech-btn">Gradio</button>
+          </div>
+          <a class="view-source" href="https://github.com/Preesha-54/AI-EXCUSE-GENERATOR" target="_blank">View Source Code</a>
+
+        </div>
+
+        <div class="project-card">
+          <h4>Credit Card Fraud Detection — Aug 2024</h4>
+          <p>Developed and compared ML models (KNN, SVM, Logistic Regression, Decision Tree) using Kaggle’s dataset to identify fraudulent transactions. Achieved highest accuracy with KNN and Decision Tree, enhancing detection reliability.</p>
+          <div class="tech-list">
+            <button class="tech-btn">Python</button>
+            <button class="tech-btn">scikit-learn</button>
+            <button class="tech-btn">Pandas</button>
+            <button class="tech-btn">Feature Engineering</button>
+          </div>
+          <a class="view-source" href="https://github.com/Preesha-54/Machine-Learning" target="_blank">View Source Code</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS & CERTIFICATIONS -->
+  <section id="achievements" class="reveal">
+  <div class="section-inner">
+    <h2 class="section-title">Achievements & Certifications</h2>
+    <p class="section-caption">Continuous learning and professional development milestones</p>
+
+    <h3 style="color:var(--accent);margin:12px 0 10px">Certifications</h3>
+    <div class="ach-grid">
+
+      <div class="ach-card">
+        <h4>Python Basic — HackerRank</h4>
+        <p><a href="https://www.hackerrank.com/certificates/03d03acb8f86" target="_blank" style="color:var(--muted);">View Certificate</a></p>
+      </div>
+
+      <div class="ach-card">
+        <h4>AI Fundamentals — IBM</h4>
+        <p><a href="https://www.credly.com/badges/8e091cfc-f95e-4d8a-9c62-95eb781464d5/public_url" target="_blank" style="color:var(--muted);">View Certificate</a></p>
+      </div>
+
+      <div class="ach-card">
+        <h4>Python Essentials — Cisco</h4>
+        <p><a href="https://www.credly.com/badges/0ab473ae-f152-4fd9-83ee-92575a207a4a/public_url" target="_blank" style="color:var(--muted);">View Certificate</a></p>
+      </div>
+
+      <div class="ach-card">
+        <h4>SQL Advanced — HackerRank</h4>
+        <p><a href="https://www.hackerrank.com/certificates/df993e53c0ae" target="_blank" style="color:var(--muted);">View Certificate</a></p>
+      </div>
+
+      <div class="ach-card">
+        <h4>MongoDB Python Developer Path</h4>
+        <p><a href="https://learn.mongodb.com/c/4gV3OD1uTP-DpVpb75Rqbw" target="_blank" style="color:var(--muted);">View Certificate</a></p>
+      </div>
+
+      <div class="ach-card">
+        <h4>Python for Data Science — Infosys</h4>
+        <p><a href="https://www.linkedin.com/posts/preesha-paleti-613717254_datascience-python-certification-activity-7214612104144728066-kTqY?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAD7BF68BzAYSxjIVRmtcBRQyTVLUNL2ok4o" target="_blank" style="color:var(--muted);">View Certificate</a></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+      <h3 style="color:var(--accent);margin:22px 0 10px">Co-Curricular Activities</h3>
+      <div class="co-grid">
+        <div class="co-card"><h4>NCC — JW A Certificate</h4><p style="color:var(--muted)">Sir CRR Public School | July 2018 – Jan 2020</p></div>
+        <div class="co-card"><h4>SAC Coordinator</h4><p style="color:var(--muted)">Vignan University, Guntur | Sep 2023 – May 2024</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="reveal">
+    <div class="section-inner">
+      <h2 class="section-title">Contact</h2>
+      <p class="section-caption">Reach out for collaboration, hiring, or projects — I reply quickly</p>
+
+      <div class="contact-grid">
+        <!-- left: contact details -->
+        <div class="contact-card">
+          <h3>Contact Details</h3>
+          <div class="contact-info">
+            <p><strong>Location:</strong> Eluru, India</p>
+            <p><strong>Phone:</strong> <a href="tel:+919515314559" style="color:var(--accent)">+91 9515314559</a></p>
+            <p><strong>Email:</strong> <a href="mailto:preeshapaleti@gmail.com" style="color:var(--accent)">preeshapaleti@gmail.com</a></p>
+          </div>
+
+          <h3 style="margin-top:16px">Connect</h3>
+          <div class="social-row">
+            <a class="social-link" href="mailto:preeshapaleti@gmail.com" title="Email"><i class='bx bx-envelope'></i></a>
+            <a class="social-link" href="https://www.linkedin.com/in/preesha-paleti-613717254/" target="_blank" title="LinkedIn"><i class='bx bxl-linkedin'></i></a>
+            <a class="social-link" href="https://github.com/Preesha-54" target="_blank" title="GitHub"><i class='bx bxl-github'></i></a>
+          </div>
+        </div>
+
+        <!-- right: form -->
+        <div class="contact-card contact-form">
+          <h3>Send a Message</h3>
+          <form id="contactForm">
+            <input name="name" type="text" placeholder="Your name" required />
+            <input name="email" type="email" placeholder="Your email" required />
+            <input name="subject" type="text" placeholder="Subject (optional)" />
+            <textarea name="message" rows="6" placeholder="Your message" required></textarea>
+            <button class="submit-btn" type="submit">Send Message</button>
+            <div id="formStatus" style="margin-top:10px;color:var(--muted);font-size:0.95rem;display:none"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Smooth active link highlighting
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section[id]');
+  function onScroll(){
+    const pos = window.scrollY + 120;
+    sections.forEach(s => {
+      if(pos >= s.offsetTop && pos < s.offsetTop + s.offsetHeight){
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector('.nav-links a[href="#' + s.id + '"]');
+        if(link) link.classList.add('active');
+      }
+    });
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  // IntersectionObserver for reveal (fade-in) animations (Option 2)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        // If you want one-time reveal, unobserve:
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {threshold: 0.12});
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Contact form placeholder handler (simulate send; replace with EmailJS/Formspree later)
+  document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const status = document.getElementById('formStatus');
+    status.style.display = 'block';
+    status.style.color = 'var(--muted)';
+    status.textContent = 'Sending…';
+
+    // simulate network/send
+    await new Promise(r => setTimeout(r, 900));
+    status.style.color = 'lightgreen';
+    status.textContent = 'Message sent — thank you! I will respond soon.';
+    e.target.reset();
+    setTimeout(()=> status.style.display = 'none', 4500);
+  });
+
+  // Make nav links smooth (native scroll-behavior is set, but ensure offset due to fixed header)
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      const href = a.getAttribute('href');
+      if(!href || href === '#') return;
+      const target = document.querySelector(href);
+      if(!target) return;
+      const offset = 76; // header height offset
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({top, behavior:'smooth'});
+    });
+  });
+
+</script>
+</body>
+</html>
